@@ -1,0 +1,77 @@
+{
+  "api": {
+    "nihapi": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "NIHQuery"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
+    }
+  },
+  "auth": {
+    "nihbot6b65e29a": {
+      "customAuth": false,
+      "dependsOn": [],
+      "frontendAuthConfig": {
+        "mfaConfiguration": "OFF",
+        "mfaTypes": [
+          "SMS"
+        ],
+        "passwordProtectionSettings": {
+          "passwordPolicyCharacters": [],
+          "passwordPolicyMinLength": 8
+        },
+        "signupAttributes": [
+          "EMAIL"
+        ],
+        "socialProviders": [],
+        "usernameAttributes": [],
+        "verificationMechanisms": [
+          "EMAIL"
+        ]
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "Cognito"
+    }
+  },
+  "function": {
+    "NIHQuery": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_function_NIHQuery_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "NIHQuery"
+        }
+      ]
+    },
+    "AMPLIFY_function_NIHQuery_osHost": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "NIHQuery"
+        }
+      ]
+    },
+    "AMPLIFY_function_NIHQuery_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "NIHQuery"
+        }
+      ]
+    }
+  }
+}

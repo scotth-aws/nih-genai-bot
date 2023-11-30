@@ -1,0 +1,17 @@
+type QueryResult {
+	id: String
+	stackName: String
+	createdAt: String
+	deploymentStatus: ResultStatus
+	outputs: String
+	aid: String
+}
+
+input QueryResultInput {
+	id: String
+	stackName: String!
+	createdAt: String
+	deploymentStatus: ResultStatus!
+	outputs: String
+	aid: String
+}
