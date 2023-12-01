@@ -28,7 +28,7 @@ import {
 import Navigation from "../Navigation";
 import { useNavigate } from "react-router-dom";
 
-var selected = {};
+var _grant = "dddd";
 
 const Content = () => {
   const [filteringText, setFilteringText] = React.useState("");
@@ -57,6 +57,10 @@ const Content = () => {
     }
     searchNIHGrants();
   };
+  const nextNavigation = (event) => {
+    
+    navigate("/NIHR");
+  }
   function sortReleaseDate(detail) {
   
 
@@ -299,8 +303,8 @@ const Content = () => {
       <div className="cart">
         <Container fitHeight>
           <SpaceBetween size="l"></SpaceBetween>
-          <Button onClick={event => navigate("/NIHR")}  disabled={contextButtonDisabled} variant="primary">
-            Use this Grant Opportunity to gather more context{" "}
+          <Button onClick={event => nextNavigation(event)}  disabled={contextButtonDisabled} variant="primary">
+            Use this Grant Opportunity to generate an NIG Grant Template{" "}
           </Button>
         </Container>
       </div>
@@ -331,7 +335,7 @@ function Home({ signOut, user }: WithAuthenticatorProps) {
   return (
     <AppLayout
       disableContentPaddings={false}
-      navigation={<Navigation user={user} />}
+      navigation={<Navigation user={user}/>}
       content={<Content />}
       contentType="default"
       toolsOpen={rnavopen}

@@ -61,14 +61,14 @@ const Content = () => {
     if (!sortDescending) {
       setGrants(
         grants.sort((a, b) => {
-          return new Date(b.Release_Date) - new Date(a.Release_Date); // ascending
+          return new Date(b.award_notice_date) - new Date(a.award_notice_date); // ascending
         })
       );
       setSortDescending(true);
     } else {
       setGrants(
         grants.sort((a, b) => {
-          return new Date(a.Release_Date) - new Date(b.Release_Date); // descending
+          return new Date(a.award_notice_date) - new Date(b.award_notice_date); // descending
         })
       );
       setSortDescending(false);
@@ -90,29 +90,11 @@ const Content = () => {
               advanced_text_search: {
                 operator: "and",
                 search_field: "projecttitle,terms",
-                search_text: "Alzheimer's Disease",
+                search_text: filteringText,
               },
               date_added: { from_date: "2022-01-01", to_date: "2023-12-31" },
             },
-            include_fields: [
-              "ApplI",
-              "SubprojectId",
-              "FiscalYear",
-              "OrgName",
-              "OrgCity",
-              "OrgState",
-              "OrgStateName",
-              "DeptType",
-              "ProjectNum",
-              "OrgCountry",
-              "ProjectNumSplit",
-              "ContactPiName",
-              "AllText",
-              "FullStudySection",
-              "ProjectStartDate",
-              "ProjectEndDate",
-            ],
-            offset: 10,
+            offset: 0,
             limit: 50,
             sort_field: "appl_id",
             sort_order: "desc",
@@ -141,17 +123,29 @@ const Content = () => {
         grantsArr[i] = {
           org_name:
           json.results[i].org_name,
+          award_notice_date:
+          json.results[i].award_notice_date,
+          org_city:
+          json.results[i].org_city,
+          dept_type:
+          json.results[i].dept_type,
           project_num:
           json.results[i].project_num,
           name:
           json.results[i].full_study_section.name,
+          url:
+          json.results[i].full_study_section.url,
+          abstract_text:
+          json.results[i].abstract_text,
 
         };
       } catch (e) {
         console.log(e);
       }
 
-        console.log(grantsArr[i]);
+        //console.log(grantsArr[i]);
+
+        console.log(json.results[i]);
       }
       
 
@@ -218,65 +212,54 @@ const Content = () => {
                 }}
                 columnDefinitions={[
                   {
-                    id: "Title",
-                    header: "Title",
-                    cell: (e) => e.Title,
+                    id: "name",
+                    header: "Name",
+                    cell: (e) => e.name,
                     //sortingField: "Title",
-                    width: "350",
+                    //width: "350",
                     isRowHeader: true,
                   },
                   {
-                    id: "Release_Date",
-                    header: "Release Date",
-                    cell: (e) => e.Release_Date,
-                    sortingField: "Release_Date",
+                    id: "award_notice_date",
+                    header: "Award Date",
+                    cell: (e) => e.award_notice_date,
+                    sortingField: "award_notice_date",
+                    //width: "350",
+                    isRowHeader: true,
                   },
                   {
-                    id: "Organization",
+                    id: "org_name",
                     header: "Organization",
-                    cell: (e) => e.Organization,
+                    cell: (e) => e.org_name,
+                    //sortingField: "Title",
+                    //width: "350",
+                    isRowHeader: true,
                   },
                   {
-                    id: "URL",
-                    header: "URL",
-                    cell: (e) => (
-                      <Link external href={e.URL}>
-                        Overview
-                      </Link>
-                    ),
+                    id: "org_city",
+                    header: "City Date",
+                    cell: (e) => e.org_city,
+                    //sortingField: "Release_Date",
                   },
                   {
-                    id: "Expired_Date",
-                    header: "Expired Date",
-                    cell: (e) => e.Expired_Date,
+                    id: "dept_type",
+                    header: "Department",
+                    cell: (e) => e.dept_type,
                   },
                   {
-                    id: "Activity_Code",
-                    header: "Activity Code",
-                    cell: (e) => e.Activity_Code,
+                    id: "abstract_text",
+                    header: "Abstract",
+                    width: "500",
+                    cell: (e) => e.abstract_text,
                   },
-                  {
-                    id: "Parent_Organization",
-                    header: "Parent_Organization",
-                    cell: (e) => e.Parent_Organization,
-                  },
-                  {
-                    id: "Document_Number",
-                    header: "Document Number",
-                    cell: (e) => e.Document_Number,
-                  },
-                  {
-                    id: "Clinical_Trials",
-                    header: "Clinical Trials",
-                    cell: (e) => e.Clinical_Trials,
-                  },
+                 
                 ]}
                 items={grants}
                 loadingText="Loading resources"
                 resizableColumns
                 wrapLines
                 selectionType="single"
-                sortingColumn="Release_Date"
+                sortingColumn="award_notice_date"
                 onSortingChange={({ detail }) => {
                   sortReleaseDate(detail);
                   //console.log(detail);
@@ -304,7 +287,7 @@ const Content = () => {
             disabled={contextButtonDisabled}
             variant="primary"
           >
-            Use this Grant Opportunity to gather more context{" "}
+            Use this Abstract to as context to generate template{" "}
           </Button>
         </Container>
       </div>
